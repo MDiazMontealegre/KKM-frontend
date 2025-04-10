@@ -1,0 +1,17 @@
+.report-generation {
+    display: flex;
+    align-items: center;
+    background-color: #205026;
+    color: #dfdfdf;
+    border: none;
+    padding: 0.5rem 0.5rem;
+    border-radius: 6px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.report-generation:hover {
+    background-color: #cccccc; /* Color del botón al poner el cursor encima */
+    color: #000000;
+}
