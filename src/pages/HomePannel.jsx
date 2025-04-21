@@ -16,7 +16,6 @@ const HomePannel = () => {
     // Estado para guardar la lista de Productos
     const [products, setProducts] = useState([]);
     const [newProduct, setNewProduct]= useState({
-        categoria: "",
         marca: "",
         nombre: "",
         talla: "",
@@ -43,7 +42,6 @@ const HomePannel = () => {
 
     //Configurar y rellenar columnas con los datos de la API
     const columns = [
-        { name: "Categoria", selector: row => row.categoria, sortable: true },
         { name: "Marca", selector: row => row.marca, sortable: true },
         { name: "Nombre", selector: row => row.nombre, sortable: true },
         { name: "Talla", selector: row => row.talla, sortable: true },
