@@ -3,19 +3,25 @@ import DataTable from "react-data-table-component";
 import StockAdding from "../components/stock-adding/StockAdding";
 import { useState } from "react";
 import Modal from "../components/modal/Modal";
-import  Swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 // Importacion de sevicios que hacen peticiones al backend
-import {getProducts, updateStock, addProduct} from "../services/productService";
+import { getProducts, updateStock, addProduct } from "../services/productService";
 import { useEffect } from "react";
 
 const HomePannel = () => {
 
     //Estados
-    const [showModal, setShowModal]=useState (false); //Estado del modal 
+    const [showModal, setShowModal] = useState(false); //Estado del modal 
+
     // Estado para guardar la lista de Productos
     const [products, setProducts] = useState([]);
-    const [newProduct, setNewProduct]= useState({
+
+    //Para diferenciar si guardo o actualizo
+    const [productoEditado, setProductoEditado] = useState([]);
+
+    //Estado para el formilario de un nuevo producto
+    const [newProduct, setNewProduct] = useState({
         marca: "",
         nombre: "",
         talla: "",
@@ -28,17 +34,17 @@ const HomePannel = () => {
 
     //Funcion para obtener los datos de los productos desde el API
     const fetchProducts = async () => {
-        try{
-            const res= await getProducts();
+        try {
+            const res = await getProducts();
             setProducts(res.data || []);
-        }catch(error){
+        } catch (error) {
             Swal.fire("Error", "no se pudieron cargar los productos", "error");
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchProducts();
-    },[]);
+    }, []);
 
     //Configurar y rellenar columnas con los datos de la API
     const columns = [
@@ -49,28 +55,66 @@ const HomePannel = () => {
         { name: "Num. Referencia", selector: row => row.numreferencia },
         { name: "Proveedor", selector: row => row.proveedor },
         { name: "Stock", selector: row => row.stock },
-        { name: "Estado", selector: row => (
-            <span className={`badge ${row.estado === 1 ? "badge-green" : "badge-red"}`}>
-            {row.estado === 1 ? "Activo" : "Inactivo"}
-            </span>
-        ) },
+        {
+            name: "Estado", selector: row => (
+                <span className={`badge ${row.estado === 1 ? "badge-green" : "badge-red"}`}>
+                    {row.estado === 1 ? "Activo" : "Inactivo"}
+                </span>
+            )
+        },
     ];
 
-    const handleChange =(e)=>{
-        setNewProduct({...newProduct, [e.target.name]: e.target.value})
+    //Manejador de cambios en los inputs del formulario
+    const handleChange = (e) => {
+        setNewProduct({ ...newProduct, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit =(e)=>{
-        e.preventDefault();
-        console.log("Nuevo Producto ", newProduct)
-        Swal.fire({
-            title: "Producto agregado",
-            text: "Ha sido registrado exitosamente",
-            icon: "success",
-            confirmButtonText: "Aceptar"
-        })
-        setShowModal(false);
-    }
+    //Manejador para envio de formulario
+    const handleSubmit = async (e) => {
+        e.preventDefault(); //Previene recarga de pagina
+        try {
+            if (productoEditado) {
+                const res = await updateStock({ ...newProduct, id: productoEditado.id });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success) {
+                        Swal.fire("Actualizado", data.message, "success");
+                    }else{
+                        Swal.fire("Sin cambios", data.message, "info");
+                    }
+                }else{
+                    const dataError= await res.json();
+                    Swal.fire("Error", dataError.message, "error");
+                }
+            }else{
+                const res = await addProduct(newProduct);
+                if(res.ok){
+                    const data= await res.json();
+                    Swal.fire("Producto agregado", data.message, "success");
+                }else{
+                    const dataError= await res.json();
+                    Swal.fire("Error", dataError.message, "error")
+                }
+            }
+
+            setShowModal(false);
+            setProductoEditado(null);
+            setNewProduct({
+                marca: "",
+                nombre: "",
+                talla: "",
+                precio: "",
+                numreferencia: "",
+                proveedor: "",
+                stock: "",
+                estado: 1
+            });
+            fetchProducts(); //Actualizamos la tabla para ver los cambios reflejados
+        }catch(error){
+            Swal.fire("Error", "Ocurrio un error inesperado", "error")
+        }
+
+    };
 
     //Aqui hacia arriba manejo de servicios
 
@@ -87,11 +131,11 @@ const HomePannel = () => {
             </div>
 
             <br></br>
-            
+
             <div className="content-search">
-                <StockAdding 
-                    textButton="Añadir producto" 
-                    onClick={()=> {                        
+                <StockAdding
+                    textButton="Añadir producto"
+                    onClick={() => {
                         setShowModal(true);
                     }}
                 />
@@ -109,14 +153,10 @@ const HomePannel = () => {
             <br></br>
 
             <Modal
-            isOpen={showModal}
-            onClose={()=> setShowModal(false)}
-            title={"Añadir producto"}>
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                title={"Añadir producto"}>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Categoria</label>
-                        <input type="text" name="categoria" value={newProduct.categoria} onChange={handleChange}></input>
-                    </div>
                     <div className="form-group">
                         <label>Marca</label>
                         <input type="text" name="marca" value={newProduct.marca} onChange={handleChange}></input>
