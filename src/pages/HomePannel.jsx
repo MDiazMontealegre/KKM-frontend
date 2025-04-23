@@ -62,6 +62,21 @@ const HomePannel = () => {
                 </span>
             )
         },
+        {
+            name: "Acciones",
+            cell: row => (
+                <span 
+                    className="material-symbols-outlined"
+                    title="Editar"
+                    style={{marginRight: "10px", cursor: "pointer" }}
+                    onClick={() => handleEdit(row)}
+                >edit_square</span>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        }
+                
     ];
 
     //Manejador de cambios en los inputs del formulario
@@ -87,7 +102,7 @@ const HomePannel = () => {
                     Swal.fire("Error", dataError.message, "error");
                 }
             }else{
-                const res = await addProduct(newProduct);
+                const res= await addProduct(newProduct);
                 if(res.ok){
                     const data= await res.json();
                     Swal.fire("Producto agregado", data.message, "success");
@@ -114,6 +129,21 @@ const HomePannel = () => {
             Swal.fire("Error", "Ocurrio un error inesperado", "error")
         }
 
+    };
+
+    const handleEdit = (product) =>{
+        setNewProduct ({
+        marca: product.marca,
+        nombre: product.nombre,
+        talla: product.talla,
+        precio: product.precio,
+        numreferencia: product.numreferencia,
+        proveedor: product.proveedor,
+        stock: product.stock,
+        estado: product.estado,
+        })
+        setProductoEditado(product);
+        setShowModal(true);
     };
 
     //Aqui hacia arriba manejo de servicios
@@ -155,11 +185,23 @@ const HomePannel = () => {
             <Modal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
-                title={"Añadir producto"}>
+                title={productoEditado ? "Editar Producto" : "Añadir Producto"}>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Marca</label>
                         <input type="text" name="marca" value={newProduct.marca} onChange={handleChange}></input>
+                    </div>
+                    <div className="form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="nombre" value={newProduct.nombre} onChange={handleChange}></input>
+                    </div>
+                    <div className="form-group">
+                        <label>Talla</label>
+                        <input type="text" name="talla" value={newProduct.talla} onChange={handleChange}></input>
+                    </div>
+                    <div className="form-group">
+                        <label>Precio</label>
+                        <input type="text" name="precio" value={newProduct.precio} onChange={handleChange}></input>
                     </div>
                     <div className="form-group">
                         <label>Num. Referencia</label>
@@ -171,12 +213,19 @@ const HomePannel = () => {
                     </div>
                     <div className="form-group">
                         <label>Stock</label>
-                        <select name="stock" value={newProduct.stock} onChange={handleChange}>
+                        <input type="text" name="stock" value={newProduct.stock} onChange={handleChange}></input>
+                    </div>
+                    <div className="form-group">
+                        <label>Estado</label>
+                        <select name="estado" value={newProduct.estado} onChange={handleChange}>
                             <option value={1}>Activo</option>
                             <option value={0}>Inactivo</option>
                         </select>
                     </div>
-                    <button type="submit">Añadir</button>
+                    
+                    <button type="submit" className="submit-btn">
+                    {productoEditado ? "Actualizar" : "Añadir"}
+                    </button>
                 </form>
             </Modal>
 

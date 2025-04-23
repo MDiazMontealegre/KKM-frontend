@@ -11,11 +11,12 @@ export const getProductById = async (product_id) => {
     return await res.json();
 };
 
-export const updateStock = async (product_id, data) => {
-    const res = await fetch(`${API_BASE}/product/update-stock/${product_id}`, {
+export const updateStock = async (product) => {
+    const {id, marca, nombre, talla, precio, numreferencia, proveedor, stock} =product;
+    return await fetch(`${API_BASE}/product/update-stock/${id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
+        body: JSON.stringify({id, marca, nombre, talla, precio, numreferencia, proveedor, stock}), //No se envia el estado
     });
 };
 
