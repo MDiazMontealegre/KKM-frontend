@@ -2,13 +2,14 @@ import { NavLink } from "react-router-dom";
 import "./NavBar.css"
 import InventoryManagement from "../stock-adding/StockAdding";
 import ReportGeneration from "../report-generation/ReportGeneration";
+import KKMlogo from '/src/components/navbar/KkmLogo.png'
 
 const NavBar = () => {
     return (
         <>
             <nav>
                 <div className="nav-logo">
-                    <img src="KkmLogo" alt="logo-kkm" />
+                    <img src={KKMlogo} alt="logo-kkm" />
                 </div>
                 <ul className="nav-menu">
                     <li className="nav-item"><NavLink to="/dashboard/home-panel" className="item-intro">Panel de inicio</NavLink></li>

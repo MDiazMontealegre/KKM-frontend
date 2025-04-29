@@ -154,8 +154,8 @@ const HomePannel = () => {
                 <ContentHeader
                     title="Bienvenido "
                     paragraph="Bienvenido a KK&M, tu solución integral para la gestión de inventarios de calzado.
-                Nuestro sistema te ayuda a llevar un control preciso de existencias, optimizar el stock,
-                manejar la contabilidad, generar informes y mejorar la eficiencia de tu negocio.
+                Nuestro sistema te ayuda a llevar un control preciso de existencias, optimizar el stock, 
+                generar informes y mejorar la eficiencia de tu negocio.
                 Simplifica la administración de tus productos con tecnología confiable y fácil de usar.
                 ¡Haz que tu inventario trabaje para ti!"></ContentHeader>
             </div>
@@ -230,9 +230,7 @@ const HomePannel = () => {
             </Modal>
 
             <div className="inventory-data">
-                <h4>Aqui valor total de inventario</h4>
-                <h4>Aqui productos mas vendidos</h4>
-                <h4>Aqui productos con bajo stock</h4>
+                <h4></h4>
             </div>
 
         </>

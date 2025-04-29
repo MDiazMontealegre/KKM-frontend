@@ -11,7 +11,7 @@
 }
 
 .modal-content{
-    background: white;
+    background: #f5f0e9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -26,14 +26,14 @@
 .modal-close-btn{
     padding: 8px 15px;
     border: none;
-    background: #007bff;
+    background: #740505;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .modal-close-btn:hover{
-    background: #0056b3;
+    background: #740505;
 }
 
 .form-group{
@@ -57,7 +57,7 @@
 .submit-btn{
     padding: 8px;
     border: none;
-    background: #218838;
+    background: #740505;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -65,5 +65,5 @@
 }
 
 .submit-btn:hover{
-    background: #218838;
+    background: #740505;
 }

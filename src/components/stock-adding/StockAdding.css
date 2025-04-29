@@ -1,7 +1,7 @@
 .stock-adding {
     display: flex;
     align-items: center;
-    background-color: #205026;
+    background-color: #740505;
     color: #dfdfdf;
     border: none;
     padding: 0.5rem 0.5rem;
@@ -13,6 +13,6 @@
 }
 
 .stock-adding:hover {
-    background-color: #cccccc; /* Color del botón al poner el cursor encima */
+    background-color: #f5f0e9; /* Color del botón al poner el cursor encima */
     color: #000000;
 }

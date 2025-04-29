@@ -11,9 +11,9 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.2;
   font-weight: 400;
-  background-color: #cccccc;
+  background-color: #f5f0e9;
 
-  --primary: #5e0000;
+  --primary: #740505;
   --secondary: #000000;
   --tertiary: #ffffff;
 }
@@ -40,7 +40,7 @@ h4 {
 }
 
 button {
-  color: #5e0000;
+  color: #740505;
 }
 
 .content-search {
