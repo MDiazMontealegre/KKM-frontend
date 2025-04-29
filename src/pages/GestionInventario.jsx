@@ -1,3 +1,4 @@
+import ContentHeaderInventory from "../components/content-header-inventory/ContentHeaderInventory";
 import DataTable from "react-data-table-component";
 import StockAdding from "../components/stock-adding/StockAdding";
 import { useState } from "react";
@@ -147,6 +148,13 @@ const GestionInventario = () => {
 
     return (
         <>
+            
+            <div className="Welcome">
+                <ContentHeaderInventory
+                    title="Gestion de inventario "
+                    paragraph="Aqui se encontraran todos los Productos con todas sus caracteristicas"></ContentHeaderInventory>
+            </div>
+
             <div className="content-search">
                 <StockAdding
                     textButton="Añadir producto"
