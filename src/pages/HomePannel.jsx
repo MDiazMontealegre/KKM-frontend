@@ -7,21 +7,13 @@ import Swal from "sweetalert2";
 
 // Importacion de sevicios que hacen peticiones al backend
 import { getUsers, createUser, updateUser } from "../services/userService";
+import { getRoles } from "../services/rolService";
 
 import { useEffect } from "react";
 
 const HomePannel = () => {
-
-    //Estados
-    const [showModal, setShowModal] = useState(false); //Estado del modal 
-
-    // Estado para guardar la lista de Usuarios
     const [users, setUsers] = useState([]);
-
-    //Para diferenciar si guardo o actualizo
-    const [usuarioEditado, setUsuarioEditado] = useState([]);
-
-    //Estado para el formilario de un nuevo producto
+    const [showModal, setShowModal] = useState(false); //Estado del modal 
     const [newUser, setNewUser] = useState({
         nombre: "",
         correo: "",
@@ -29,19 +21,40 @@ const HomePannel = () => {
         rol_id: "",
         estado: true
     })
+    const [roles, serRoles] = useState([])
+    
+
+    //Para diferenciar si guardo o actualizo
+    const [usuarioEditado, setUsuarioEditado] = useState([]);
 
     //Funcion para obtener los datos de los productos desde el API
-    const fetchProducts = async () => {
+    const fetchUsers = async () => {
         try {
-            const res = await getProducts();
-            setProducts(res.data || []);
+            const res = await getUsers();
+            if (res.success) {
+                setUsers(res.data);
+            }
         } catch (error) {
-            Swal.fire("Error", "no se pudieron cargar los productos", "error");
+            Swal.fire("Error", "no se pudieron cargar los usuarios", "error");
+        }
+    }
+
+    const fetchRoles = async () => {
+        try {
+            const res = await getRoles();
+            console.log(res);
+
+            if (res.success) {
+                setUsers(res.data);
+            }
+        } catch (error) {
+            Swal.fire("Error", "No se pudo cargar la información de los roles", "error")
         }
     }
 
     useEffect(() => {
-        fetchProducts();
+        fetchUsers();
+        fetchRoles();
     }, []);
 
     //Configurar y rellenar columnas con los datos de la API
