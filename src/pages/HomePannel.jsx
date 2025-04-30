@@ -6,7 +6,8 @@ import Modal from "../components/modal/Modal";
 import Swal from "sweetalert2";
 
 // Importacion de sevicios que hacen peticiones al backend
-import { getProducts, addProduct } from "../services/productService";
+import { getUsers, createUser, updateUser } from "../services/userService";
+
 import { useEffect } from "react";
 
 const HomePannel = () => {
@@ -14,22 +15,19 @@ const HomePannel = () => {
     //Estados
     const [showModal, setShowModal] = useState(false); //Estado del modal 
 
-    // Estado para guardar la lista de Productos
-    const [products, setProducts] = useState([]);
+    // Estado para guardar la lista de Usuarios
+    const [users, setUsers] = useState([]);
 
     //Para diferenciar si guardo o actualizo
-    const [productoEditado, setProductoEditado] = useState([]);
+    const [usuarioEditado, setUsuarioEditado] = useState([]);
 
     //Estado para el formilario de un nuevo producto
-    const [newProduct, setNewProduct] = useState({
-        marca: "",
+    const [newUser, setNewUser] = useState({
         nombre: "",
-        talla: "",
-        precio: "",
-        numreferencia: "",
-        proveedor: "",
-        stock: "",
-        estado: 1
+        correo: "",
+        contrasena: "",
+        rol_id: "",
+        estado: true
     })
 
     //Funcion para obtener los datos de los productos desde el API
