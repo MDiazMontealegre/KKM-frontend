@@ -11,19 +11,29 @@ export const getProductById = async (product_id) => {
     return await res.json();
 };
 
-export const updateStock = async (product) => {
-    const {id, marca, nombre, talla, precio, numreferencia, proveedor, stock} =product;
-    return await fetch(`${API_BASE}/product/update-stock/${id}`, {
+export const updateProduct = async (product) => {
+    const {id, marca, nombre, talla, precio, numreferencia, proveedor, tipo, categoria_id} =product;
+    return await fetch(`${API_BASE}/product/update-product/${id}`, {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, marca, nombre, talla, precio, numreferencia, proveedor, stock}), //No se envia el estado
+        body: JSON.stringify({id, marca, nombre, talla, precio, numreferencia, proveedor, tipo, categoria_id}), //No se envia el estado
     });
 };
 
 export const addProduct = async (data) => {
-    const res = await fetch(`${API_BASE}/product/add-product/`,{
+    return await fetch(`${API_BASE}/product/add-product/`,{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
     });
 };
+
+export async function changeProductStatus(id, estado) {
+    return await fetch(`${API_BASE}/product/change-status/${id}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ estado }),
+    });
+  }

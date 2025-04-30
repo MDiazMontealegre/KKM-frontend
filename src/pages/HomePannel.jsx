@@ -6,7 +6,7 @@ import Modal from "../components/modal/Modal";
 import Swal from "sweetalert2";
 
 // Importacion de sevicios que hacen peticiones al backend
-import { getProducts, updateStock, addProduct } from "../services/productService";
+import { getProducts, addProduct } from "../services/productService";
 import { useEffect } from "react";
 
 const HomePannel = () => {
@@ -56,11 +56,19 @@ const HomePannel = () => {
         { name: "Proveedor", selector: row => row.proveedor },
         { name: "Stock", selector: row => row.stock },
         {
-            name: "Estado", selector: row => (
-                <span className={`badge ${row.estado === 1 ? "badge-green" : "badge-red"}`}>
-                    {row.estado === 1 ? "Activo" : "Inactivo"}
+            name: "Estado",
+            selector: row => {
+            console.log("Valor de estado:", row.estado, "Tipo:", typeof row.estado);
+
+            // Evaluación segura para true, "true", o 1
+            const esActivo = row.estado === true || row.estado === "true" || row.estado === 1;
+
+            return (
+                <span className={`badge ${esActivo ? "badge-green" : "badge-red"}`}>
+                    {esActivo ? "Activo" : "Inactivo"}
                 </span>
-            )
+            );
+            }
         },
         {
             name: "Acciones",
