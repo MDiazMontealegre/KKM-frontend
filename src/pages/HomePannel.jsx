@@ -6,7 +6,7 @@ import Modal from "../components/modal/Modal";
 import Swal from "sweetalert2";
 
 // Importacion de sevicios que hacen peticiones al backend
-import { getUsers, createUser, updateUser } from "../services/userService";
+import { getUsers, createUser, updateUser, changeUserStatus } from "../services/userService";
 import { getRoles } from "../services/rolService";
 
 import { useEffect } from "react";
@@ -18,10 +18,10 @@ const HomePannel = () => {
         nombre: "",
         correo: "",
         contrasena: "",
-        rol_id: "",
+        rol: "",
         estado: true
     })
-    const [roles, serRoles] = useState([])
+    const [roles, setRoles] = useState([])
     
 
     //Para diferenciar si guardo o actualizo
@@ -45,7 +45,7 @@ const HomePannel = () => {
             console.log(res);
 
             if (res.success) {
-                setUsers(res.data);
+                setRoles(res.data);
             }
         } catch (error) {
             Swal.fire("Error", "No se pudo cargar la información de los roles", "error")
@@ -59,13 +59,10 @@ const HomePannel = () => {
 
     //Configurar y rellenar columnas con los datos de la API
     const columns = [
-        { name: "Marca", selector: row => row.marca, sortable: true },
-        { name: "Nombre", selector: row => row.nombre, sortable: true },
-        { name: "Talla", selector: row => row.talla, sortable: true },
-        { name: "Precio", selector: row => row.precio, sortable: true },
-        { name: "Num. Referencia", selector: row => row.numreferencia },
-        { name: "Proveedor", selector: row => row.proveedor },
-        { name: "Stock", selector: row => row.stock },
+        { name: "Nombre", selector: row => row.nombreu, sortable: true },
+        { name: "Correo", selector: row => row.correo, sortable: true },
+        { name: "Contraseña", selector: row => row.contrasena},
+        { name: "Rol", selector: row => row.nombre, sortable: true},
         {
             name: "Estado",
             selector: row => {
@@ -84,31 +81,56 @@ const HomePannel = () => {
         {
             name: "Acciones",
             cell: row => (
-                <span 
-                    className="material-symbols-outlined"
-                    title="Editar"
-                    style={{marginRight: "10px", cursor: "pointer" }}
-                    onClick={() => handleEdit(row)}
-                >edit_square</span>
+                <div className="action-buttons">
+                    <span
+                        className="material-symbols-outlined"
+                        title="Editar"
+                        style={{ marginRight: "10px", cursor: "pointer" }}
+                        onClick={() => handleEdit(row)}
+                        >edit_square
+                    </span>
+                    <span
+                        className="material-symbols-outlined icon-btn"
+                        title="Cambiar estado"
+                        style={{
+                            cursor: "pointer",
+                            color: row.estado ? "green" : "gray",
+                            fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48"
+                        }}
+                        onClick={() => handleToggleEstado(row)}
+                        >
+                        {row.estado ? "toggle_on" : "toggle_off"}
+                    </span>
+                </div>
             ),
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
-        }
-                
+        }               
     ];
+
+    const closeModal = () => {
+        setShowModal(false); // Cierre el modal
+        setNewBolsillo({
+            nombre: "",
+            correo: "",
+            contrasena: "",
+            rol: "",
+            estado: true
+        })
+    };
 
     //Manejador de cambios en los inputs del formulario
     const handleChange = (e) => {
-        setNewProduct({ ...newProduct, [e.target.name]: e.target.value })
+        setNewUser({ ...newUser, [e.target.name]: e.target.value })
     }
 
     //Manejador para envio de formulario
     const handleSubmit = async (e) => {
         e.preventDefault(); //Previene recarga de pagina
         try {
-            if (productoEditado) {
-                const res = await updateStock({ ...newProduct, id: productoEditado.id });
+            if (usuarioEditado) {
+                const res = await updateUser({ ...newUser, id: usuarioEditado.id });
                 if (res.ok) {
                     const data = await res.json();
                     if (data.success) {
@@ -121,10 +143,10 @@ const HomePannel = () => {
                     Swal.fire("Error", dataError.message, "error");
                 }
             }else{
-                const res= await addProduct(newProduct);
+                const res= await createUser(newUser);
                 if(res.ok){
                     const data= await res.json();
-                    Swal.fire("Producto agregado", data.message, "success");
+                    Swal.fire("Usuario agregado", data.message, "success");
                 }else{
                     const dataError= await res.json();
                     Swal.fire("Error", dataError.message, "error")
@@ -132,38 +154,63 @@ const HomePannel = () => {
             }
 
             setShowModal(false);
-            setProductoEditado(null);
-            setNewProduct({
-                marca: "",
+            setUsuarioEditado(null);
+            setNewUser({
                 nombre: "",
-                talla: "",
-                precio: "",
-                numreferencia: "",
-                proveedor: "",
-                stock: "",
-                estado: 1
+                correo: "",
+                contrasena: "",
+                rol: "",
+                estado: true
             });
-            fetchProducts(); //Actualizamos la tabla para ver los cambios reflejados
+            fetchUsers(); //Actualizamos la tabla para ver los cambios reflejados
         }catch(error){
             Swal.fire("Error", "Ocurrio un error inesperado", "error")
         }
 
     };
 
-    const handleEdit = (product) =>{
-        setNewProduct ({
-        marca: product.marca,
-        nombre: product.nombre,
-        talla: product.talla,
-        precio: product.precio,
-        numreferencia: product.numreferencia,
-        proveedor: product.proveedor,
-        stock: product.stock,
-        estado: product.estado,
+    const handleEdit = (user) =>{
+        setNewUser ({
+        nombre: user.nombreu,
+        correo: user.correo,
+        contrasena: user.contrasena,
+        rol: user.nombre,
+        estado: user.estado,
         })
-        setProductoEditado(product);
+        setUsuarioEditado(user);
         setShowModal(true);
     };
+
+    // Manejador para cambiar el estado del producto (activo/inactivo)
+        const handleToggleEstado = async (user) => {
+            const nuevoEstado = !user.estado;
+            const estadoTexto = nuevoEstado ? "activar" : "inactivar";
+    
+            const result = await Swal.fire({
+                title: `¿Estás seguro de que quieres ${estadoTexto} a ${user.nombreu} ${user.nombre}?`,
+                text: `Este usuario será marcado como ${nuevoEstado ? "activo" : "inactivo"}.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: `Sí, ${estadoTexto}`,
+                cancelButtonText: "Cancelar"
+           });
+    
+           if (result.isConfirmed) {
+                try {
+                    const res = await changeUserStatus(user.id, nuevoEstado);
+                    if (res.ok) {
+                        Swal.fire("Actualizado", `El usuario ha sido ${estadoTexto} correctamente.`, "success");
+                        fetchUsers(); // Refresca la tabla
+                    } else {
+                        Swal.fire("Error", "No se pudo actualizar el estado del usuario.", "error");
+                    }
+                } catch (error) {
+                    Swal.fire("Error", "Ocurrió un error inesperado.", "error");
+                }
+            } 
+        };
 
     //Aqui hacia arriba manejo de servicios
 
@@ -183,7 +230,7 @@ const HomePannel = () => {
 
             <div className="content-search">
                 <StockAdding
-                    textButton="Añadir producto"
+                    textButton="Añadir usuario"
                     onClick={() => {
                         setShowModal(true);
                     }}
@@ -193,7 +240,7 @@ const HomePannel = () => {
             <div className="data-graphic">
                 <DataTable
                     columns={columns}
-                    data={products}
+                    data={users}
                     pagination
                     highlightOnHover
                 ></DataTable>
@@ -203,57 +250,54 @@ const HomePannel = () => {
 
             <Modal
                 isOpen={showModal}
-                onClose={() => setShowModal(false)}
-                title={productoEditado ? "Editar Producto" : "Añadir Producto"}>
+                onClose={closeModal}
+                title={usuarioEditado ? "Editar Usuario" : "Crear Usuario"}>
+
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>Marca</label>
-                        <input type="text" name="marca" value={newProduct.marca} onChange={handleChange}></input>
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre" value={newUser.nombre} onChange={handleChange} required/>
                     </div>
                     <div className="form-group">
-                        <label>Nombre</label>
-                        <input type="text" name="nombre" value={newProduct.nombre} onChange={handleChange}></input>
+                        <label>Correo:</label>
+                        <input type="text" name="correo" value={newUser.correo} onChange={handleChange}required/>
                     </div>
                     <div className="form-group">
-                        <label>Talla</label>
-                        <input type="text" name="talla" value={newProduct.talla} onChange={handleChange}></input>
+                        <label>Contraseña:</label>
+                        <input type="text" name="contrasena" value={newUser.contrasena} onChange={handleChange}required/>
                     </div>
                     <div className="form-group">
-                        <label>Precio</label>
-                        <input type="text" name="precio" value={newProduct.precio} onChange={handleChange}></input>
+                        <label>Rol:</label>
+                        <select name="rol" value={newUser.rol} onChange={handleChange} required>
+                            
+                            <option value="">Seleccione un rol</option>
+                            {roles.map((rol) => {
+                                return (
+
+                                    <option key={rol.id} value={rol.id}>
+                                        {rol.nombre}
+                                    </option>
+
+                                );
+                            })};
+                        </select> 
                     </div>
                     <div className="form-group">
-                        <label>Num. Referencia</label>
-                        <input type="text" name="numreferencia" value={newProduct.numreferencia} onChange={handleChange}></input>
-                    </div>
-                    <div className="form-group">
-                        <label>Proveedor</label>
-                        <input type="text" name="proveedor" value={newProduct.proveedor} onChange={handleChange}></input>
-                    </div>
-                    <div className="form-group">
-                        <label>Stock</label>
-                        <input type="text" name="stock" value={newProduct.stock} onChange={handleChange}></input>
-                    </div>
-                    <div className="form-group">
-                        <label>Estado</label>
-                        <select name="estado" value={newProduct.estado} onChange={handleChange}>
-                            <option value={1}>Activo</option>
-                            <option value={0}>Inactivo</option>
+                        <label>Estado:</label>
+                        <select name="estado" value={newUser.estado} onChange={handleChange} required>
+                            <option value={true}>Activo</option>
+                            <option value={false}>Inactivo</option>
                         </select>
                     </div>
                     
                     <button type="submit" className="submit-btn">
-                    {productoEditado ? "Actualizar" : "Añadir"}
+                    {usuarioEditado ? "Actualizar" : "Añadir"}
                     </button>
                 </form>
             </Modal>
-
-            <div className="inventory-data">
-                <h4></h4>
-            </div>
 
         </>
     );
 };
 
-export default HomePannel; 
+export default HomePannel;

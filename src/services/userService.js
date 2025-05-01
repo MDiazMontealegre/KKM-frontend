@@ -2,7 +2,7 @@
 const API_BASE = "http://127.0.0.1:8000";
 
 export const getUsers = async() => {
-    const response = await fetch(`${API_BASE}/user/get_users`)
+    const response = await fetch(`${API_BASE}/user/get-users`)
     return await response.json();
 };
 
@@ -29,3 +29,13 @@ export const updateUser = async (user) => {
         body: JSON.stringify({id, nombre, correo, contrasena, rol_id}), //No se envia el estado
     });
 };
+
+export async function changeUserStatus(id, estado) {
+    return await fetch(`${API_BASE}/user/change-status/${id}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ estado }),
+    });
+  };
