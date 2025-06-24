@@ -78,16 +78,16 @@ const GestionInventario = () => {
         {
             name: "Estado",
             selector: row => {
-                console.log("Valor de estado:", row.estado, "Tipo:", typeof row.estado);
+            console.log("Valor de estado:", row.estado, "Tipo:", typeof row.estado);
 
-                // Evaluación segura para true, "true", o 1
-                const esActivo = row.estado === true || row.estado === "true" || row.estado === 1;
+            // Evaluación segura para true, "true", o 1
+            const esActivo = row.estado === true || row.estado === "true" || row.estado === 1;
 
-                return (
-                    <span className={`badge ${esActivo ? "badge-green" : "badge-red"}`}>
-                        {esActivo ? "Activo" : "Inactivo"}
-                    </span>
-                );
+            return (
+                <span className={`badge ${esActivo ? "badge-green" : "badge-red"}`}>
+                    {esActivo ? "Activo" : "Inactivo"}
+                </span>
+            );
             }
         },
         {

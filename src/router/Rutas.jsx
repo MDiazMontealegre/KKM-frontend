@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import HomePannel from "../pages/HomePannel"
+import Login from "../pages/Login"
 import App from "../App"
 import GestionInventario from "../pages/GestionInventario";
 import GeneracionInformes from "../pages/GeneracionInformes";
@@ -19,7 +20,7 @@ function Rutas() {
             </Route>
 
             {/* rutas independientes del dashboard */}
-            <Route path="/login" element={<HomePannel></HomePannel>}></Route>
+            <Route path="/login" element={<Login></Login>}></Route>
 
             {/* redirecciones a ruta inexistente */}
             <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>

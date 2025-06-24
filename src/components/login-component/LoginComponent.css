@@ -1,0 +1,30 @@
+.gradient-bg {
+  background: linear-gradient(135deg, #f5f7fa 0%, #f5f0e9 100%);
+}
+.shoe-pattern {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPgo8cmVjdCB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMNiA2IiBzdHJva2U9IiNlZWVlZWUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8cGF0aCBkPSJNNiAwTDAgNiIgc3Ryb2tlPSIjZWVlZWVlIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+');
+  opacity: 0.1;
+}
+.input-highlight {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.input-highlight:focus {
+  box-shadow: 0 0 0 3px rgba(199, 210, 254, 0.5);
+}
+
+.bg-indigo-600 {
+    background-color: #740505
+}
+
+.bg-indigo-600:hover {
+    background-color: #914646;
+}
+
+.text-indigo-600{
+  color: #740505;
+}
+
+.text-indigo-600:hover{
+  color: #914646;
+}
