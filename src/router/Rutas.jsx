@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import HomePannel from "../pages/HomePannel"
 import Login from "../pages/Login"
 import App from "../App"
@@ -9,23 +9,23 @@ import GeneracionInformes from "../pages/GeneracionInformes";
 
 function Rutas() {
     return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/dashboard" element={<App></App>}>
+                    {/* aqui las rutas anidadas en el dashboard */}
+                    <Route path="home-panel" element={<HomePannel></HomePannel>}></Route>
+                    <Route path="gestion-inventario" element={<GestionInventario></GestionInventario>}></Route>
+                    <Route path="generacion-informes" element={<GeneracionInformes></GeneracionInformes>}></Route>
 
-        <Routes>
-            <Route path="/dashboard" element={<App></App>}>
-                {/* aqui las rutas anidadas en el dashboard */}
-                <Route path="home-panel" element={<HomePannel></HomePannel>}></Route>
-                <Route path="gestion-inventario" element={<GestionInventario></GestionInventario>}></Route>
-                <Route path="generacion-informes" element={<GeneracionInformes></GeneracionInformes>}></Route>
+                </Route>
 
-            </Route>
+                {/* rutas independientes del dashboard */}
+                <Route path="/login" element={<Login></Login>}></Route>
 
-            {/* rutas independientes del dashboard */}
-            <Route path="/login" element={<Login></Login>}></Route>
-
-            {/* redirecciones a ruta inexistente */}
-            <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
-        </Routes>
-
+                {/* redirecciones a ruta inexistente */}
+                <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 
