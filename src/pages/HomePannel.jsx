@@ -53,8 +53,8 @@ const HomePannel = () => {
     }
 
     useEffect(() => {
-        fetchUsers();
-        fetchRoles();
+        fetchUsers("https://kkm-backend.onrender.com/docs#/User");
+        fetchRoles("https://kkm-backend.onrender.com/docs#/Rol");
     }, []);
 
     //Configurar y rellenar columnas con los datos de la API

@@ -3,7 +3,7 @@ import React from "react";
 const GeneracionInformes = () => {
   const descargarReporte = async () => {
     try {
-      const response = await fetch("http://localhost:8000/generar-reporte");
+      const response = await fetch("https://kkm-backend.onrender.com/docs#/");
       if (!response.ok) throw new Error("Error al generar el reporte");
 
       const blob = await response.blob();
