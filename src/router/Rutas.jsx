@@ -9,7 +9,7 @@ import GeneracionInformes from "../pages/GeneracionInformes";
 
 function Rutas() {
     return (
-        <BrowserRouter>
+        
             <Routes>
                 <Route path="/dashboard" element={<App></App>}>
                     {/* aqui las rutas anidadas en el dashboard */}
@@ -23,9 +23,9 @@ function Rutas() {
                 <Route path="/login" element={<Login></Login>}></Route>
 
                 {/* redirecciones a ruta inexistente */}
-                <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
+                <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
             </Routes>
-        </BrowserRouter>
+        
     )
 }
 

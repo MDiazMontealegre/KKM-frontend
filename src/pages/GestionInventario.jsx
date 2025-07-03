@@ -62,7 +62,7 @@ const GestionInventario = () => {
 
     // Se ejecuta una vez al cargar el componente (similar a componentDidMount)
     useEffect(() => {
-        fetchProducts("https://kkm-backend.onrender.com/docs#/Product"); // Carga la lista de colaboradores desde la API
+        fetchProducts(); // Carga la lista de colaboradores desde la API
     }, []);
 
     //Configurar y rellenar columnas con los datos de la API

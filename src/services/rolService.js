@@ -1,5 +1,5 @@
 //1. Creacion de servicios
-const API_BASE = "https://kkm-backend.onrender.com";
+const API_BASE = "http://127.0.0.1:8000";
 
 export const getRoles = async() => {
     const response = await fetch(`${API_BASE}/rol/get-roles`)
