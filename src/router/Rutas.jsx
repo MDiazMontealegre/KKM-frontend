@@ -4,6 +4,7 @@ import Login from "../pages/Login"
 import App from "../App"
 import GestionInventario from "../pages/GestionInventario";
 import GeneracionInformes from "../pages/GeneracionInformes";
+import LoginComponent from "../components/login-component/LoginComponent";
 
 
 
@@ -20,10 +21,10 @@ function Rutas() {
                 </Route>
 
                 {/* rutas independientes del dashboard */}
-                <Route path="/login" element={<Login></Login>}></Route>
+                <Route path="/login" element={<LoginComponent></LoginComponent>}></Route>
 
                 {/* redirecciones a ruta inexistente */}
-                <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
+                <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
             </Routes>
         
     )
