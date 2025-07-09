@@ -28,7 +28,7 @@ const GeneracionInformes = () => {
     <div className="text-center p-10">
       <h1 className="text-2xl font-bold mb-6">📊 Generación de Informes</h1>
       <br></br>
-      <div>
+      <div className="Welcome">
         <ContentHeader
             paragraph="Bienvenido al apartado de generacion de informes
             aqui podras descargar tanto el informe del stock disponible
