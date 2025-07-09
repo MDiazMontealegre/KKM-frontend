@@ -28,12 +28,10 @@ const GeneracionInformes = () => {
     <div className="text-center p-10">
       <h1 className="text-2xl font-bold mb-6">📊 Generación de Informes</h1>
       <br></br>
-      <div className="Welcome">
-        <ContentHeader
-            paragraph="Bienvenido al apartado de generacion de informes
-            aqui podras descargar tanto el informe del stock disponible
-            en la tienda, como el reporte de los usuarios registrados en ella"></ContentHeader>
-      </div>
+      <p className="mb-4">Bienvenido al apartado de generacion de informes
+            aqui podras descargar tanto el informe del stock actual disponible
+            en la tienda, como el reporte de los trabajadores registrados en ella.
+      </p>
       <br></br>
       <button
         onClick={() => descargarCSV("productos")}
