@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: kkm-frontend
+    env: static
+    staticPublishPath: dist
+    buildCommand: npm install && npm run build
