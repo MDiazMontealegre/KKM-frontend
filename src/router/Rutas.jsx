@@ -24,7 +24,7 @@ function Rutas() {
                 <Route path="/login" element={<Login></Login>}></Route>
 
                 {/* redirecciones a ruta inexistente */}
-                <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
+                <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
             </Routes>
         
     )
