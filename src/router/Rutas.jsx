@@ -21,7 +21,7 @@ function Rutas() {
                 </Route>
 
                 {/* rutas independientes del dashboard */}
-                <Route path="/login" element={<Login></Login>}></Route>
+                <Route path="/login" element={<LoginComponent></LoginComponent>}></Route>
 
                 {/* redirecciones a ruta inexistente */}
                 <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
