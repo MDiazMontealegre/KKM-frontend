@@ -39,7 +39,7 @@ const LoginComponent = ({ title, paragraph }) => {
 
       console.log("Login success:", response.data);
       // Redirigir al dashboard
-      navigate("");
+      navigate("/dashboard");
     } catch (error) {
       alert("Credenciales incorrectas");
       console.error("Login failed:", error);
