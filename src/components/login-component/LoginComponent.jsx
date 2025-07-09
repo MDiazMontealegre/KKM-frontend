@@ -1,5 +1,7 @@
 import "./LoginComponent.css"
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginComponent = ({ title, paragraph }) => {
   const [formData, setFormData] = useState({
@@ -19,7 +21,9 @@ const LoginComponent = ({ title, paragraph }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, role } = formData;
     if (!name || !email || !password || !role) {
@@ -27,8 +31,19 @@ const LoginComponent = ({ title, paragraph }) => {
       return;
     }
 
-    console.log("Form submitted:", formData);
-    alert(`Welcome back, ${formData.name}! (This is a demo - no data was sent)`);
+    try {
+      const response = await axios.post("https://kkm-backend.onrender.com/auth/login", {
+        correo: formData.email,
+        contrasena: formData.password
+      });
+
+      console.log("Login success:", response.data);
+      // Redirigir al dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      alert("Credenciales incorrectas");
+      console.error("Login failed:", error);
+    }
     setFormData({
       name: "",
       email: "",
