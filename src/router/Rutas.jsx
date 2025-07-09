@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import HomePannel from "../pages/HomePannel"
 import Login from "../pages/Login"
 import App from "../App"
@@ -10,7 +10,7 @@ import LoginComponent from "../components/login-component/LoginComponent";
 
 function Rutas() {
     return (
-        
+        <BrowserRouter>
             <Routes>
                 <Route path="/dashboard" element={<App></App>}>
                     {/* aqui las rutas anidadas en el dashboard */}
@@ -26,7 +26,7 @@ function Rutas() {
                 {/* redirecciones a ruta inexistente */}
                 <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
             </Routes>
-        
+        </BrowserRouter>
     )
 }
 

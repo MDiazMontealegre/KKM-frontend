@@ -3,8 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
-
 const LoginComponent = ({ title, paragraph }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -23,6 +21,8 @@ const LoginComponent = ({ title, paragraph }) => {
     }));
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, role } = formData;
@@ -32,7 +32,7 @@ const LoginComponent = ({ title, paragraph }) => {
     }
 
     try {
-      const response = await axios.post("https://kkm-backend.onrender.com", {
+      const response = await axios.post("https://kkm-backend.onrender.com/auth/login", {
         correo: formData.email,
         contrasena: formData.password
       });
