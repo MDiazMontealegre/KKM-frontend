@@ -4,8 +4,8 @@ const GeneracionInformes = () => {
   const descargarCSV = async (tipo) => {
     try {
       const url = tipo === "productos"
-        ? "https://kkm-backend.onrender.com/docs#/Product/export_products_product_export_products_get"
-        : "https://kkm-backend.onrender.com/docs#/User/export_users_user_export_users_get";
+        ? "https://kkm-backend.onrender.com/product/export-products"
+        : "https://kkm-backend.onrender.com/user/export-users";
 
       const response = await fetch(url);
       if (!response.ok) throw new Error("Error al generar el reporte");
