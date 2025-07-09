@@ -32,7 +32,7 @@ const LoginComponent = ({ title, paragraph }) => {
     }
 
     try {
-      const response = await axios.post("https://kkm-backend.onrender.com/docs#/default/login_login_post", {
+      const response = await axios.post("https://kkm-backend.onrender.com/login", {
         correo: formData.email,
         contrasena: formData.password
       });
