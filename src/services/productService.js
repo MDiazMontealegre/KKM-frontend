@@ -1,5 +1,5 @@
 //1. Creacion de servicios
-const API_BASE = "https://kkm-backend.onrender.com";
+const API_BASE = "https://kkm-backend.onrender.com/docs#/Product";
 
 export const getProducts = async () => {
     const res = await fetch(`${API_BASE}/product/get-products/`);
