@@ -10,7 +10,7 @@ import LoginComponent from "../components/login-component/LoginComponent";
 
 function Rutas() {
     return (
-        <BrowserRouter>
+        
             <Routes>
                 <Route path="/dashboard" element={<App></App>}>
                     {/* aqui las rutas anidadas en el dashboard */}
@@ -26,7 +26,7 @@ function Rutas() {
                 {/* redirecciones a ruta inexistente */}
                 <Route path="*" element={<Navigate to="/dashboard"></Navigate>}></Route>
             </Routes>
-        </BrowserRouter>
+        
     )
 }
 
